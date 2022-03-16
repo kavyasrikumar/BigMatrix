@@ -28,17 +28,17 @@ public class BigMatrix
 		}
 	}
 	
-	public BigMatrix()
-	{
-
-	}
-	
-	
 	// Use two different hash maps, one's key based on row, the other on column. 
 	// This will allow for independent row and column operations. The value stored in the hash tables are row, column, value.
-	private HashMap<Integer, Entry> rowMap = new HashMap<Integer, Entry>();
-	private HashMap<Integer, Entry> colMap = new HashMap<Integer, Entry>();
+	private HashMap<Integer, HashMap<Integer,Entry>> rowMap;
+	private HashMap<Integer, HashMap<Integer,Entry>> colMap;
 	
+	public BigMatrix()
+	{
+		rowMap = new HashMap<Integer, HashMap<Integer,Entry>>();
+		colMap = new HashMap<Integer, HashMap<Integer,Entry>>();
+
+	}	
 	
 	public void setValue(int row, int col, int value)
 	{
@@ -49,9 +49,11 @@ public class BigMatrix
 			Integer colInt = (Integer) col;
 			
 			Entry entry = new Entry(row, col, value);
+			HashMap<Integer, Entry> temp = new HashMap<Integer,Entry>();
+			temp.put(row, entry);
 			
-			rowMap.put(rowInt.hashCode(), entry);
-			colMap.put(colInt.hashCode(), entry);
+			rowMap.put(rowInt.hashCode(), temp);
+			colMap.put(colInt.hashCode(), temp);
 		}
 	}
 	
@@ -89,51 +91,91 @@ public class BigMatrix
 		// For each key in the row hash table
 			// If the key is not already in the list, add it to list
 		// Return the list
-		throw new UnsupportedOperationException();
+		
+		for(int row: rowMap.keySet()) {
+			if (rowVals.contains(row) == false) 
+			{
+				rowVals.add(row);
+			}
+		}
+		
+		return rowVals;
 	}
 	
 	public List<Integer> getNonEmptyRowsInColumn(int col)
 	{
 		// Create an empty list of integers to store the row values 
+		List<Integer> rowVals = new ArrayList<Integer>();
+		
 		// Hash the column number 
+		Integer colInt = (Integer) col;
+		//int colHash = colInt.hashCode();
 		
 		// For each entry in the correlating hash map
 			// If the entry belongs to the column 
 					// Add its correlating row number to the list if it is not already in it 
 			// Return the list
-		throw new UnsupportedOperationException();
+		
+		for(Entry e : rowMap.values()) 
+		{
+			if(e.column == col && !rowVals.contains(e.column)) {
+				rowVals.add(e.column);
+			}
+		}
+		return rowVals;
 	}
 	
 	public List<Integer> getNonEmptyCols()
 	{
 		// Create an empty list of integers to store the column values
+		List<Integer> colVals = new ArrayList<Integer>();
 		
 		// For each key in the column hash table
 			// If the key is not already in the list, add it to list
-		// Return the list
-		throw new UnsupportedOperationException();
+		// Return the list		
+		
+		for(int col: colMap.keySet()) {
+			if (colVals.contains(col) == false) 
+			{
+				colVals.add(col);
+			}
+		}
+		
+		return colVals;
 	}
 	
 	public List<Integer> getNonEmptyColsInRow(int row)
 	{
 		// Create an empty list of integers to store the column values 
+		List<Integer> colVals = new ArrayList<Integer>();
 		
 		// Hash the row number 
 			// For each entry in the correlating hash map
 				// If the entry belongs to the row 
 					// Add its correlating column number to the list if it is not already in it 
 		// Return the list
-		throw new UnsupportedOperationException();
+		
+		for(Entry e : colMap.values()) 
+		{
+			if(e.row == row && !colVals.contains(e.column)) {
+				colVals.add(e.column);
+			}
+		}
+		return colVals;
 	}
 	
 	public int getRowSum(int row)
 	{
-		//Create an integer sum
-		//Hash the row number
-			//For each entry in the correlating hash map
-				//If the entry belongs to the row
-					//Add the value of that entry to the sum
-	//Return the sum
+		// Create an integer sum
+		int sum = 0;
+		
+		// Hash the row number
+		Integer rowInt = (Integer) row;
+		int rowHash = rowInt.hashCode();
+			// For each entry in the correlating hash map
+				// If the entry belongs to the row
+					// Add the value of that entry to the sum
+	// Return the sum
 		throw new UnsupportedOperationException();
 	}
 	

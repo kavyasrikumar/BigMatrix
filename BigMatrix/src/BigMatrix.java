@@ -53,34 +53,40 @@ public class BigMatrix
 			temp.put(row, entry);
 			
 			rowMap.put(rowInt.hashCode(), temp);
+			temp.remove(row, entry);
+			
+			temp.put(col, entry);
 			colMap.put(colInt.hashCode(), temp);
 		}
 	}
 	
 	public int getValue(int row, int col)
 	{
+		
+		HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
+		
 		// Check the number of entries in both the row hash map and column hash map, 
 		// and choose the one with the smaller number of entries (for efficiency)
 		if(rowMap.size() < colMap.size()) 
 		{
 			Integer rowInt = (Integer) row;
-			Entry temp = rowMap.get(rowInt.hashCode());
-			
-			if (temp.column == col && temp.row == row)
-			{
-				return temp.value;
-			}
+			temp = rowMap.get(rowInt.hashCode());
 		} 
+		
 		else 
 		{
 			Integer colInt = (Integer) col;
-			Entry temp = colMap.get(colInt.hashCode());
-			
-			if (temp.column == col && temp.row == row)
+			temp = colMap.get(colInt.hashCode());
+		}
+		
+		for(Integer i : temp.keySet())
+		{
+			if (temp.get(i).column == col && temp.get(i).row == row)
 			{
-				return temp.value;
+				return temp.get(i).value;
 			}
 		}
+		
 		return 0;		
 	}
 	
@@ -88,59 +94,59 @@ public class BigMatrix
 	{
 		// Create an empty list of integers to store the row values
 		List<Integer> rowVals = new ArrayList<Integer>();
-		// For each key in the row hash table
-			// If the key is not already in the list, add it to list
-		// Return the list
 		
-		for(int row: rowMap.keySet()) {
+		// For each key in the row hash table
+		for(Integer row: rowMap.keySet()) 
+		{
+			// If the key is not already in the list, add it to list
 			if (rowVals.contains(row) == false) 
 			{
 				rowVals.add(row);
 			}
 		}
 		
+		// Return the list
 		return rowVals;
 	}
 	
 	public List<Integer> getNonEmptyRowsInColumn(int col)
 	{
-		// Create an empty list of integers to store the row values 
+		
+		// Create an empty list of integers to store the row values
 		List<Integer> rowVals = new ArrayList<Integer>();
 		
-		// Hash the column number 
-		Integer colInt = (Integer) col;
-		//int colHash = colInt.hashCode();
+		Integer colInt = (Integer) col;		
+		HashMap<Integer, Entry> colSubMap = colMap.get(colInt.hashCode());
 		
-		// For each entry in the correlating hash map
-			// If the entry belongs to the column 
-					// Add its correlating row number to the list if it is not already in it 
-			// Return the list
-		
-		for(Entry e : rowMap.values()) 
+		// For each key in the column hash table
+		for(Integer c: colSubMap.keySet()) 
 		{
-			if(e.column == col && !rowVals.contains(e.column)) {
-				rowVals.add(e.column);
+			// If the key is not already in the list, add it to list
+			if (rowVals.contains(colSubMap.get(c).row) == false) 
+			{
+				rowVals.add(colSubMap.get(c).row);
 			}
 		}
+		
 		return rowVals;
 	}
 	
 	public List<Integer> getNonEmptyCols()
 	{
-		// Create an empty list of integers to store the column values
+		// Create an empty list of integers to store the row values
 		List<Integer> colVals = new ArrayList<Integer>();
 		
 		// For each key in the column hash table
+		for(Integer col: colMap.keySet()) 
+		{
 			// If the key is not already in the list, add it to list
-		// Return the list		
-		
-		for(int col: colMap.keySet()) {
 			if (colVals.contains(col) == false) 
 			{
 				colVals.add(col);
 			}
 		}
 		
+		// Return the list
 		return colVals;
 	}
 	
@@ -149,18 +155,19 @@ public class BigMatrix
 		// Create an empty list of integers to store the column values 
 		List<Integer> colVals = new ArrayList<Integer>();
 		
-		// Hash the row number 
-			// For each entry in the correlating hash map
-				// If the entry belongs to the row 
-					// Add its correlating column number to the list if it is not already in it 
-		// Return the list
+		Integer rowInt = (Integer) row;		
+		HashMap<Integer, Entry> rowSubMap = rowMap.get(rowInt.hashCode());
 		
-		for(Entry e : colMap.values()) 
+		// For each key in the column hash table
+		for(Integer r: rowSubMap.keySet()) 
 		{
-			if(e.row == row && !colVals.contains(e.column)) {
-				colVals.add(e.column);
+			// If the key is not already in the list, add it to list
+			if (colVals.contains(rowSubMap.get(r).row) == false) 
+			{
+				colVals.add(rowSubMap.get(r).row);
 			}
 		}
+
 		return colVals;
 	}
 	
@@ -171,47 +178,96 @@ public class BigMatrix
 		
 		// Hash the row number
 		Integer rowInt = (Integer) row;
-		int rowHash = rowInt.hashCode();
-			// For each entry in the correlating hash map
-				// If the entry belongs to the row
-					// Add the value of that entry to the sum
-	// Return the sum
-		throw new UnsupportedOperationException();
+		HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
+		
+		// For each entry in the correlating hash map
+		for(Integer r : rowIndMap.keySet())
+		{
+			// Add the value of that entry to the sum
+			sum += rowIndMap.get(r).value;
+		}
+
+		// Return the sum
+		return sum;
 	}
 	
 	public int getColSum(int col)
 	{
-		//Create an integer sum
-		//Hash the column number
-			//For each entry in the correlating hash map
-				//If the entry belongs to the column
-					//Add the value of that entry to the sum
-	//Return the sum
-		throw new UnsupportedOperationException();
+		// Create an integer sum
+		int sum = 0;
+		
+		// Hash the row number
+		Integer colInt = (Integer) col;
+		HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
+		
+		// For each entry in the correlating hash map
+		for(Integer c : colIndMap.keySet())
+		{
+			// Add the value of that entry to the sum
+			sum += colIndMap.get(c).value;
+		}
+
+		// Return the sum
+		return sum;
 	}
 	
 	public int getTotalSum()
 	{
 		//Create an integer sum
+		int sum = 0;
+		
 		//For each entry in the row hash map
-			//Add the corresponding value to sum
-//Return the sum
-		throw new UnsupportedOperationException();
+		for(Integer i : rowMap.keySet())
+		{
+			for (Integer r : rowMap.get(i).keySet())
+			{
+				//Add the corresponding value to sum
+				sum += rowMap.get(i).get(r).value;
+			}
+		}
+		
+		//Return the sum
+		return sum;
 	}
 	
 	public BigMatrix multiplyByConstant(int constant)
 	{
-		//		Create a new big matrix
-		//For each entry in the row hash map
-		//Call set value on the new big matrix with the corresponding row and column, and multiply the value by the constant if the result of multiplication is non-zero
-//Return the new big matrix
-		throw new UnsupportedOperationException();
+		// Create a new big matrix
+		BigMatrix result = new BigMatrix();
+		
+		if(constant == 0) 
+		{
+			return result;
+		}
+		
+		// For each entry in the row hash map
+		for(Integer i : rowMap.keySet())
+		{
+			for (Integer r : rowMap.get(i).keySet())
+			{
+				//Call set value on the new big matrix with the corresponding row and column, 
+				// and multiply the value by the constant if the result of multiplication is non-zero
+				if (rowMap.get(i).get(r).value != 0) {
+					result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, (rowMap.get(i).get(r).value * constant));
+				}
+				else
+				{
+					result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, rowMap.get(i).get(r).value);
+				}
+			}
+		}
+		
+		//Return the new big matrix
+		return result;
 	}
 	
 	public BigMatrix addMatrix(BigMatrix other)
 	{
-		//Create a new big matrix
-		//Use the method get all non empty rows in a column on the current matrix
+		// Create a new big matrix
+		BigMatrix result = new BigMatrix();
+		
+		// Use the method get all non empty rows in a column on the current matrix
+		//List<Integer> nonEmptyRows = colMap.getAllNonEmptyRowsInColumn();
 		//For each of the non empty rows 
 			//If the value at the same (row, column) pair in other is non-zero
 				//Sum the values and set the value of the entry in the new matrix accordingly

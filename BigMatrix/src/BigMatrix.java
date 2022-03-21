@@ -52,28 +52,49 @@ public class BigMatrix
 			HashMap<Integer, Entry> temp = new HashMap<Integer,  Entry>();
 			temp.put(col, entry);
 			
-			rowMap.put(rowInt.hashCode(), temp);
-			temp.remove(col, entry);
+			if(rowMap.get(rowInt.hashCode()).isEmpty())
+			{
+				rowMap.put(rowInt.hashCode(), temp);
+			}
+			else
+			{
+				HashMap<Integer, Entry> temp2 = rowMap.get(rowInt.hashCode());
+				temp2.put(col, entry);
+				
+				rowMap.put(rowInt.hashCode(), temp2);
+			}
 			
+			
+			temp.remove(col, entry);
 			temp.put(row, entry);
-			colMap.put(colInt.hashCode(), temp);
+			
+			if(colMap.get(colInt.hashCode()).isEmpty())
+			{
+				colMap.put(colInt.hashCode(), temp);
+			}
+			else
+			{
+				HashMap<Integer, Entry> temp2 = colMap.get(colInt.hashCode());
+				temp2.put(row, entry);
+				
+				rowMap.put(colInt.hashCode(), temp2);
+			}
 		}
 	}
 	
 	public int getValue(int row, int col)
 	{
 		
-		for (HashMap<Integer, Entry> map : rowMap.values())
+		Integer rowInt = (Integer) row;
+		
+		
+		for (Entry e : rowMap.get(rowInt.hashCode()).values())
 		{
-			for (Entry e : map.values())
+			if(e.column == col)
 			{
-				if(e.column == col && e.row == row)
-				{
-					return e.value;
-				}
+				return e.value;
 			}
 		}
-		
 		
 		return 0;		
 	}

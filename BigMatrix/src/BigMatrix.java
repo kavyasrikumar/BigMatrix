@@ -164,12 +164,18 @@ public class BigMatrix
 		// Create an integer sum
 		int sum = 0;
 		
-		//for (Integer col : rowMap.keySet())
-		//{
-			//sum += get(row, col);
-			
-		//}
+		BigMatrix temp = new BigMatrix();
 		
+		temp.rowMap = rowMap;
+		temp.colMap = colMap;
+		
+		for (Integer col : rowMap.keySet())
+		{
+			sum += temp.getValue(row, col);
+			
+		}
+		
+		/*
 		// Hash the row number
 		Integer rowInt = (Integer) row;
 		
@@ -184,6 +190,7 @@ public class BigMatrix
 				sum += e.value;
 			}
 		}
+		*/
 
 		// Return the sum
 		return sum;
@@ -193,6 +200,19 @@ public class BigMatrix
 	{
 		// Create an integer sum
 		int sum = 0;
+		
+		BigMatrix temp = new BigMatrix();
+		
+		temp.rowMap = rowMap;
+		temp.colMap = colMap;
+		
+		for (Integer row : rowMap.keySet())
+		{
+			sum += temp.getValue(row, col);
+			
+		}
+		
+		/*
 		
 		// Hash the row number
 		Integer colInt = (Integer) col;
@@ -208,6 +228,7 @@ public class BigMatrix
 				sum += e.value;
 			}
 		}
+		*/
 
 		// Return the sum
 		return sum;

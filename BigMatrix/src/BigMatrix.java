@@ -50,12 +50,12 @@ public class BigMatrix
 			
 			Entry entry = new Entry(row, col, value);
 			HashMap<Integer, Entry> temp = new HashMap<Integer,  Entry>();
-			temp.put(row, entry);
+			temp.put(col, entry);
 			
 			rowMap.put(rowInt.hashCode(), temp);
-			temp.remove(row, entry);
+			temp.remove(col, entry);
 			
-			temp.put(col, entry);
+			temp.put(row, entry);
 			colMap.put(colInt.hashCode(), temp);
 		}
 	}
@@ -63,36 +63,17 @@ public class BigMatrix
 	public int getValue(int row, int col)
 	{
 		
-		HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
-		
-		
-		/*
-		 * // Check the number of entries in both the row hash map and column hash map, 
-		// and choose the one with the smaller number of entries (for efficiency)
-		if(rowMap.size() < colMap.size()) 
+		for (HashMap<Integer, Entry> map : rowMap.values())
 		{
-			Integer rowInt = (Integer) row;
-			
-			temp = rowMap.get(rowInt.hashCode());
-		} 
-		
-		else 
-		{ */
-		
-		Integer colInt = (Integer) col;
-		
-		if (colMap.get(colInt.hashCode()) != null) 
-		{
-			temp = colMap.get(colInt.hashCode());
-		}
-		
-		for(Integer i : temp.keySet())
-		{
-			if (temp.get(i).column == col && temp.get(i).row == row)
+			for (Entry e : map.values())
 			{
-				return temp.get(i).value;
+				if(e.column == col)
+				{
+					return e.value;
+				}
 			}
 		}
+		
 		
 		return 0;		
 	}
@@ -182,6 +163,12 @@ public class BigMatrix
 	{
 		// Create an integer sum
 		int sum = 0;
+		
+		//for (Integer col : rowMap.keySet())
+		//{
+			//sum += get(row, col);
+			
+		//}
 		
 		// Hash the row number
 		Integer rowInt = (Integer) row;

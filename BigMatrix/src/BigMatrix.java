@@ -65,17 +65,24 @@ public class BigMatrix
 		
 		HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
 		
-		// Check the number of entries in both the row hash map and column hash map, 
+		
+		/*
+		 * // Check the number of entries in both the row hash map and column hash map, 
 		// and choose the one with the smaller number of entries (for efficiency)
 		if(rowMap.size() < colMap.size()) 
 		{
 			Integer rowInt = (Integer) row;
+			
 			temp = rowMap.get(rowInt.hashCode());
 		} 
 		
 		else 
+		{ */
+		
+		Integer colInt = (Integer) col;
+		
+		if (colMap.get(colInt.hashCode()) != null) 
 		{
-			Integer colInt = (Integer) col;
 			temp = colMap.get(colInt.hashCode());
 		}
 		
@@ -178,10 +185,11 @@ public class BigMatrix
 		
 		// Hash the row number
 		Integer rowInt = (Integer) row;
-		HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
 		
-		if ( !rowIndMap.isEmpty()) 
+		if (rowMap.get(rowInt.hashCode()) != null )
 		{
+			HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
+			
 			// For each entry in the correlating hash map
 			for(Integer r : rowIndMap.keySet())
 			{
@@ -201,10 +209,11 @@ public class BigMatrix
 		
 		// Hash the row number
 		Integer colInt = (Integer) col;
-		HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
 		
-		if ( !colIndMap.isEmpty())
+		if (colMap.get(colInt.hashCode()) != null) 
 		{
+			HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
+			
 			// For each entry in the correlating hash map
 			for(Integer c : colIndMap.keySet())
 			{

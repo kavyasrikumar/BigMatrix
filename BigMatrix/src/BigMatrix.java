@@ -49,7 +49,7 @@ public class BigMatrix
 			Integer colInt = (Integer) col;
 			
 			Entry entry = new Entry(row, col, value);
-			HashMap<Integer, Entry> temp = new HashMap<Integer,Entry>();
+			HashMap<Integer, Entry> temp = new HashMap<Integer,  Entry>();
 			temp.put(row, entry);
 			
 			rowMap.put(rowInt.hashCode(), temp);
@@ -180,11 +180,14 @@ public class BigMatrix
 		Integer rowInt = (Integer) row;
 		HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
 		
-		// For each entry in the correlating hash map
-		for(Integer r : rowIndMap.keySet())
+		if ( !rowIndMap.isEmpty()) 
 		{
-			// Add the value of that entry to the sum
-			sum += rowIndMap.get(r).value;
+			// For each entry in the correlating hash map
+			for(Integer r : rowIndMap.keySet())
+			{
+				// Add the value of that entry to the sum
+				sum += rowIndMap.get(r).value;
+			}
 		}
 
 		// Return the sum
@@ -200,11 +203,14 @@ public class BigMatrix
 		Integer colInt = (Integer) col;
 		HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
 		
-		// For each entry in the correlating hash map
-		for(Integer c : colIndMap.keySet())
+		if ( !colIndMap.isEmpty())
 		{
-			// Add the value of that entry to the sum
-			sum += colIndMap.get(c).value;
+			// For each entry in the correlating hash map
+			for(Integer c : colIndMap.keySet())
+			{
+				// Add the value of that entry to the sum
+				sum += colIndMap.get(c).value;
+			}
 		}
 
 		// Return the sum

@@ -191,10 +191,10 @@ public class BigMatrix
 			HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
 			
 			// For each entry in the correlating hash map
-			for(Integer r : rowIndMap.keySet())
+			for(Entry e : rowIndMap.values())
 			{
 				// Add the value of that entry to the sum
-				sum += rowIndMap.get(r).value;
+				sum += e.value;
 			}
 		}
 
@@ -215,10 +215,10 @@ public class BigMatrix
 			HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
 			
 			// For each entry in the correlating hash map
-			for(Integer c : colIndMap.keySet())
+			for(Entry e : colIndMap.values())
 			{
 				// Add the value of that entry to the sum
-				sum += colIndMap.get(c).value;
+				sum += e.value;
 			}
 		}
 
@@ -232,12 +232,11 @@ public class BigMatrix
 		int sum = 0;
 		
 		//For each entry in the row hash map
-		for(Integer i : rowMap.keySet())
+		for(HashMap<Integer, Entry> map : rowMap.values())
 		{
-			for (Integer r : rowMap.get(i).keySet())
+			for(Entry e : map.values())
 			{
-				//Add the corresponding value to sum
-				sum += rowMap.get(i).get(r).value;
+				sum += e.value;
 			}
 		}
 		
@@ -258,18 +257,22 @@ public class BigMatrix
 		// For each entry in the row hash map
 		for(Integer i : rowMap.keySet())
 		{
-			for (Integer r : rowMap.get(i).keySet())
+			if ( rowMap.get(i).keySet() != null )
 			{
-				//Call set value on the new big matrix with the corresponding row and column, 
-				// and multiply the value by the constant if the result of multiplication is non-zero
-				if (rowMap.get(i).get(r).value != 0) {
-					result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, (rowMap.get(i).get(r).value * constant));
-				}
-				else
+				for (Integer r : rowMap.get(i).keySet())
 				{
-					result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, rowMap.get(i).get(r).value);
+					//Call set value on the new big matrix with the corresponding row and column, 
+					// and multiply the value by the constant if the result of multiplication is non-zero
+					if (rowMap.get(i).get(r).value != 0) {
+						result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, (rowMap.get(i).get(r).value * constant));
+					}
+					else
+					{
+						result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, rowMap.get(i).get(r).value);
+					}
 				}
 			}
+
 		}
 		
 		//Return the new big matrix

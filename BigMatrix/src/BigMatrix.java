@@ -67,7 +67,7 @@ public class BigMatrix
 		{
 			for (Entry e : map.values())
 			{
-				if(e.column == col)
+				if(e.column == col && e.row == row)
 				{
 					return e.value;
 				}
@@ -206,7 +206,7 @@ public class BigMatrix
 		temp.rowMap = rowMap;
 		temp.colMap = colMap;
 		
-		for (Integer row : rowMap.keySet())
+		for (Integer row : colMap.keySet())
 		{
 			sum += temp.getValue(row, col);
 			

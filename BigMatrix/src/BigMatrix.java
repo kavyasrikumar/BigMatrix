@@ -28,6 +28,12 @@ public class BigMatrix
 		}
 	}
 	
+	public int getHashCode(int i) {
+		Integer temp = (Integer) i;
+		
+		return temp.hashCode();
+	}
+	
 	// Use two different hash maps, one's key based on row, the other on column. 
 	// This will allow for independent row and column operations. The value stored in the hash tables are row, column, value.
 	private HashMap<Integer, HashMap<Integer,Entry>> rowMap;
@@ -42,57 +48,31 @@ public class BigMatrix
 	
 	public void setValue(int row, int col, int value)
 	{
-		// If the value is not zero:
-		if(value != 0) 
+		if (value != 0)
 		{
-			Integer rowInt = (Integer) row;
-			Integer colInt = (Integer) col;
+			Entry e = new Entry(row, col, value);
 			
-			Entry entry = new Entry(row, col, value);
-			HashMap<Integer, Entry> temp = new HashMap<Integer,  Entry>();
-			temp.put(col, entry);
+			HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
+			temp.put(row, e);
+			rowMap.put(getHashCode(row), temp );
 			
-			if(rowMap.get(rowInt.hashCode()).isEmpty())
-			{
-				rowMap.put(rowInt.hashCode(), temp);
-			}
-			else
-			{
-				HashMap<Integer, Entry> temp2 = rowMap.get(rowInt.hashCode());
-				temp2.put(col, entry);
-				
-				rowMap.put(rowInt.hashCode(), temp2);
-			}
+			temp.remove(row);
+			temp.put(col, e);
 			
-			
-			temp.remove(col, entry);
-			temp.put(row, entry);
-			
-			if(colMap.get(colInt.hashCode()).isEmpty())
-			{
-				colMap.put(colInt.hashCode(), temp);
-			}
-			else
-			{
-				HashMap<Integer, Entry> temp2 = colMap.get(colInt.hashCode());
-				temp2.put(row, entry);
-				
-				rowMap.put(colInt.hashCode(), temp2);
-			}
+			colMap.put(getHashCode(col), temp);
 		}
 	}
 	
 	public int getValue(int row, int col)
 	{
-		
-		Integer rowInt = (Integer) row;
-		
-		
-		for (Entry e : rowMap.get(rowInt.hashCode()).values())
+		if (rowMap.get(row) != null)
 		{
-			if(e.column == col)
+			for (Entry e : rowMap.get(row).values())
 			{
-				return e.value;
+				if(e.column == col)
+				{
+					return e.value;
+				}
 			}
 		}
 		
@@ -105,7 +85,7 @@ public class BigMatrix
 		List<Integer> rowVals = new ArrayList<Integer>();
 		
 		// For each key in the row hash table
-		for(Integer row: rowMap.keySet()) 
+		for(int row: rowMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
 			if (rowVals.contains(row) == false) 
@@ -124,11 +104,10 @@ public class BigMatrix
 		// Create an empty list of integers to store the row values
 		List<Integer> rowVals = new ArrayList<Integer>();
 		
-		Integer colInt = (Integer) col;		
-		HashMap<Integer, Entry> colSubMap = colMap.get(colInt.hashCode());
+		HashMap<Integer, Entry> colSubMap = colMap.get(col);
 		
 		// For each key in the column hash table
-		for(Integer c: colSubMap.keySet()) 
+		for(int c: colSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
 			if (rowVals.contains(colSubMap.get(c).row) == false) 
@@ -146,7 +125,7 @@ public class BigMatrix
 		List<Integer> colVals = new ArrayList<Integer>();
 		
 		// For each key in the column hash table
-		for(Integer col: colMap.keySet()) 
+		for(int col: colMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
 			if (colVals.contains(col) == false) 
@@ -163,12 +142,11 @@ public class BigMatrix
 	{
 		// Create an empty list of integers to store the column values 
 		List<Integer> colVals = new ArrayList<Integer>();
-		
-		Integer rowInt = (Integer) row;		
-		HashMap<Integer, Entry> rowSubMap = rowMap.get(rowInt.hashCode());
+
+		HashMap<Integer, Entry> rowSubMap = rowMap.get(row);
 		
 		// For each key in the column hash table
-		for(Integer r: rowSubMap.keySet()) 
+		for(int r: rowSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
 			if (colVals.contains(rowSubMap.get(r).row) == false) 
@@ -185,35 +163,12 @@ public class BigMatrix
 		// Create an integer sum
 		int sum = 0;
 		
-		BigMatrix temp = new BigMatrix();
+		HashMap<Integer, Entry> temp = rowMap.get(row);
 		
-		temp.rowMap = rowMap;
-		temp.colMap = colMap;
-		
-		for (Integer col : rowMap.keySet())
-		{
-			sum += temp.getValue(row, col);
-			
+		for (Entry e : temp.values()) {
+			sum += e.value;
 		}
-		
-		/*
-		// Hash the row number
-		Integer rowInt = (Integer) row;
-		
-		if (rowMap.get(rowInt.hashCode()) != null )
-		{
-			HashMap<Integer, Entry> rowIndMap = rowMap.get(rowInt.hashCode());
-			
-			// For each entry in the correlating hash map
-			for(Entry e : rowIndMap.values())
-			{
-				// Add the value of that entry to the sum
-				sum += e.value;
-			}
-		}
-		*/
 
-		// Return the sum
 		return sum;
 	}
 	
@@ -222,36 +177,12 @@ public class BigMatrix
 		// Create an integer sum
 		int sum = 0;
 		
-		BigMatrix temp = new BigMatrix();
+		HashMap<Integer, Entry> temp = colMap.get(col);
 		
-		temp.rowMap = rowMap;
-		temp.colMap = colMap;
-		
-		for (Integer row : colMap.keySet())
-		{
-			sum += temp.getValue(row, col);
-			
+		for (Entry e : temp.values()) {
+			sum += e.value;
 		}
-		
-		/*
-		
-		// Hash the row number
-		Integer colInt = (Integer) col;
-		
-		if (colMap.get(colInt.hashCode()) != null) 
-		{
-			HashMap<Integer, Entry> colIndMap = colMap.get(colInt.hashCode());
-			
-			// For each entry in the correlating hash map
-			for(Entry e : colIndMap.values())
-			{
-				// Add the value of that entry to the sum
-				sum += e.value;
-			}
-		}
-		*/
 
-		// Return the sum
 		return sum;
 	}
 	
@@ -283,25 +214,12 @@ public class BigMatrix
 			return result;
 		}
 		
-		// For each entry in the row hash map
-		for(Integer i : rowMap.keySet())
+		for(HashMap<Integer, Entry> map : rowMap.values())
 		{
-			if ( rowMap.get(i).keySet() != null )
+			for(Entry e : map.values())
 			{
-				for (Integer r : rowMap.get(i).keySet())
-				{
-					//Call set value on the new big matrix with the corresponding row and column, 
-					// and multiply the value by the constant if the result of multiplication is non-zero
-					if (rowMap.get(i).get(r).value != 0) {
-						result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, (rowMap.get(i).get(r).value * constant));
-					}
-					else
-					{
-						result.setValue( rowMap.get(i).get(r).row, rowMap.get(i).get(r).column, rowMap.get(i).get(r).value);
-					}
-				}
+				result.setValue(e.row, e.column, ((e.value) * constant));
 			}
-
 		}
 		
 		//Return the new big matrix

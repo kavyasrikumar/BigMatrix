@@ -131,16 +131,9 @@ public class BigMatrix
 	
 	public int getValue(int row, int col)
 	{
-		if (rowMap.get(row) != null)
+		if (rowMap.get(row) != null && colMap.get(col) != null)
 		{		
-			for (Entry e : rowMap.get(row).values())
-			{
-				if(e.column == col)
-				{
-					//System.out.println(e.value);
-					return e.value;
-				}
-			}
+			return rowMap.get(row).get(col).value;
 		}
 		
 		return 0;		

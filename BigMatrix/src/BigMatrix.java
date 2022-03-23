@@ -18,13 +18,14 @@ public class BigMatrix
 	
 	public static void main (String[] args) {
 		BigMatrix myMatrix = new BigMatrix();
-		myMatrix.setValue(0, 0, 1);
+		myMatrix.setValue(0, 10, 1);
 		myMatrix.setValue(0, 1000, 4);
 		myMatrix.setValue(0, 10, 6);
+		myMatrix.setValue(0, 1000, 0);
 		
-		myMatrix.setValue(0, 0, 0);
+		//System.out.println("getValue: " + myMatrix.getValue(0, 0));
 		
-		System.out.println("getValue: " + myMatrix.getValue(0, 0));
+		System.out.println("The columns that are not empty: " + myMatrix.getNonEmptyCols());
 		
 		/*
 		myMatrix.getValue(0,  0);
@@ -74,35 +75,44 @@ public class BigMatrix
 			int rowInd = -1;
 			int colInd = -1;
 			
-			for(int i : rowMap.get(row).keySet()) 
-			{
-				if(rowMap.get(row).get(i).column == col) {
-					rowInd = i;
+			if (rowMap.get(row).size() > 1) {
+				for(int i : rowMap.get(row).keySet()) 
+				{
+					if(rowMap.get(row).get(i).column == col) {
+						rowInd = i;
+					}
 				}
+				rowMap.get(row).remove(rowInd);
+				//System.out.println("removing the specific value in the row");
 			}
-			for(int i : colMap.get(col).keySet()) 
+			else
 			{
-				if(colMap.get(col).get(i).row == row) {
-					colInd = i;
+				rowMap.remove(row);
+				//System.out.println("removing the row");
+			}
+		
+			if (colMap.get(col).size() > 1) {
+				for(int i : colMap.get(col).keySet()) 
+				{
+					if(colMap.get(col).get(i).row == row) {
+						colInd = i;
+					}
 				}
+				colMap.get(col).remove(colInd);
+				//System.out.println("removing the specific value in the column");
+			}
+			else
+			{
+				colMap.remove(col);
+				//System.out.println("removing the column");
 			}
 			
 			if (rowInd != -1 && colInd != -1)
 			{
 				rowMap.get(row).remove(rowInd);
-				System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
+				//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
 				colMap.get(col).remove(colInd);
-				System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
-			}
-			
-			if(rowMap.get(row).isEmpty()) 
-			{
-				rowMap.remove(row);
-			}
-			
-			if(colMap.get(col).isEmpty()) 
-			{
-				rowMap.remove(col);
+				//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
 			}
 		}
 		
@@ -160,11 +170,7 @@ public class BigMatrix
 		// For each key in the row hash table
 		for(int row: rowMap.keySet()) 
 		{
-			// If the key is not already in the list, add it to list
-			if (rowVals.contains(row) == false) 
-			{
-				rowVals.add(row);
-			}
+			rowVals.add(row);
 		}
 		
 		// Return the list
@@ -183,10 +189,10 @@ public class BigMatrix
 		for(int c: colSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
-			if (rowVals.contains(colSubMap.get(c).row) == false) 
-			{
+			//if (rowVals.contains(colSubMap.get(c).row) == false) 
+			//{
 				rowVals.add(colSubMap.get(c).row);
-			}
+			//}
 		}
 		
 		return rowVals;
@@ -200,11 +206,7 @@ public class BigMatrix
 		// For each key in the column hash table
 		for(int col: colMap.keySet()) 
 		{
-			// If the key is not already in the list, add it to list
-			if (colVals.contains(col) == false) 
-			{
-				colVals.add(col);
-			}
+			colVals.add(col);
 		}
 		
 		// Return the list
@@ -222,10 +224,10 @@ public class BigMatrix
 		for(int r: rowSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
-			if (colVals.contains(rowSubMap.get(r).row) == false) 
-			{
+			//if (colVals.contains(rowSubMap.get(r).row) == false) 
+			//{
 				colVals.add(rowSubMap.get(r).row);
-			}
+			//}
 		}
 
 		return colVals;

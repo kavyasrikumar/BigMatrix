@@ -133,12 +133,12 @@ public class BigMatrix
 	{
 		if (rowMap.get(row) != null)
 		{		
-			for (int i : rowMap.get(row).keySet())
+			for (Entry e : rowMap.get(row).values())
 			{
-				if(i == col)
+				if(e.column == col)
 				{
 					//System.out.println(e.value);
-					return rowMap.get(row).get(i).value;
+					return e.value;
 				}
 			}
 		}

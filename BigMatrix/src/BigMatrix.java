@@ -14,26 +14,7 @@ import java.util.HashMap;
 public class BigMatrix 
 {
 	
-	public static void main (String[] args) {
-		BigMatrix myMatrix = new BigMatrix();
-		myMatrix.setValue(0, 10, 1);
-		myMatrix.setValue(0, 1000, 4);
-		myMatrix.setValue(0, 10, 6);
-		myMatrix.setValue(0, 1000, 0);
-		
-		//System.out.println("getValue: " + myMatrix.getValue(0, 0));
-		
-		System.out.println("The columns that are not empty: " + myMatrix.getNonEmptyCols());
-		
-		/*
-		myMatrix.getValue(0,  0);
-		myMatrix.getValue(0, 1000);
-		myMatrix.getValue(0,  10);
-		
-		myMatrix.getRowSum(0);
-		 */
-	}
-	
+
 	public class Entry 
 	{
 		int row;

@@ -62,7 +62,11 @@ public class BigMatrix
 	
 	public void setValue(int row, int col, int value)
 	{
-		if (value != 0)
+		if(value == 0) {
+			rowMap.remove(row);
+			colMap.remove(col);
+		}
+		else
 		{
 			Entry e = new Entry(row, col, value);
 			

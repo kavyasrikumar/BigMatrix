@@ -213,9 +213,10 @@ public class BigMatrix
 		for(int r: rowSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
-			colVals.add(rowSubMap.get(r).column);
+			colVals.add(rowSubMap.get(r).coliumn);
 		}
 		return colVals;
+
 	}
 	
 	public int getRowSum(int row)

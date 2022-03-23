@@ -63,24 +63,21 @@ public class BigMatrix
 		// if the value is not 0
 		// add it to the matrix by hashing the row & column
 		//
-		else
+		Entry e = new Entry(row, col, value);
+		
+		if(!rowMap.containsKey(row))
 		{
-			Entry e = new Entry(row, col, value);
-			
-			if(!rowMap.containsKey(row))
-			{
-				rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
-			}
-			
-			if(!colMap.containsKey(col))
-			{
-				colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
-			}
-			
-			rowMap.get(row).put(col, e);
-			colMap.get(col).put(row, e);
-			
+			rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
 		}
+		
+		if(!colMap.containsKey(col))
+		{
+			colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
+		}
+		
+		rowMap.get(row).put(col, e);
+		colMap.get(col).put(row, e);
+			
 	}
 	
 	public int getValue(int row, int col)

@@ -298,17 +298,6 @@ public class BigMatrix
 		// Create a new big matrix
 		BigMatrix result = new BigMatrix();
 
-		// Use the method get all non empty rows in a column on the current matrix
-		//List<Integer> nonEmptyRows = colMap.getAllNonEmptyRowsInColumn();
-		//For each of the non empty rows 
-			//If the value at the same (row, column) pair in other is non-zero
-				//Sum the values and set the value of the entry in the new matrix accordingly
-
-		//Use the method get all non empty rows in a column on the other matrix
-			//If the value at the same (row, column) pair in the current matrix is zero
-				//Set the value of the entry in the new matrix accordingly
-//Return the new matrix
-		throw new UnsupportedOperationException();
 		List<Entry> coordsChecked = new ArrayList<Entry>();
 
 		for(HashMap<Integer, Entry> temp : rowMap.values())

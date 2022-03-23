@@ -82,11 +82,9 @@ public class BigMatrix
 	
 	public int getValue(int row, int col)
 	{
-		if (rowMap.get(row) != null && colMap.get(col) != null)
-		{		
-			System.out.println("the hashset is: " + rowMap.get(row).toString());
-			HashMap<Integer, Entry> temp = rowMap.get(row);
-			return temp.get(col).value;
+		if (rowMap.get(row).get(col) != null)
+		{	
+			return rowMap.get(row).get(col).value;
 		}
 		
 		return 0;		

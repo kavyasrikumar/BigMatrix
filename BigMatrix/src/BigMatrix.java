@@ -98,14 +98,12 @@ public class BigMatrix
 			if (rowMap.get(row) != null)
 			{
 				rowTemp = rowMap.get(row);
-				
 			}
 			
 			if (colMap.get(col) != null)
 			{
 				colTemp = colMap.get(col);
 			}
-			
 			 
 			rowTemp.put(rowTemp.size(), e);
 			rowMap.put(getHashCode(row), rowTemp );

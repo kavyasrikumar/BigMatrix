@@ -111,24 +111,28 @@ public class BigMatrix
 		if (value != 0)
 		{
 			Entry e = new Entry(row, col, value);
-			
+
 			HashMap<Integer, Entry> rowTemp = new HashMap<Integer, Entry>();
 			HashMap<Integer, Entry> colTemp = new HashMap<Integer, Entry>();
-			
+
 			if (rowMap.get(row) != null)
 			{
 				rowTemp = rowMap.get(row);
 			}
-			
+
 			if (colMap.get(col) != null)
 			{
 				colTemp = colMap.get(col);
 			}
-			 
+
+			rowMap.get(row).put(rowMap.get(row).size(), e);
+			rowMap.put(getHashCode(row), rowMap.get(row) );
 			rowTemp.put(rowTemp.size(), e);
 			rowMap.put(getHashCode(row), rowTemp );
 			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
-			
+
+			colMap.get(col).put(colMap.get(col).size(), e);
+			colMap.put(getHashCode(col), colMap.get(col));
 			colTemp.put(colTemp.size(), e);
 			colMap.put(getHashCode(col), colTemp);
 			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);

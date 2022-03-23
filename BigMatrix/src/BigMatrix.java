@@ -106,14 +106,6 @@ public class BigMatrix
 				colMap.remove(col);
 				//System.out.println("removing the column");
 			}
-			
-			if (rowInd != -1 && colInd != -1)
-			{
-				rowMap.get(row).remove(rowInd);
-				//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
-				colMap.get(col).remove(colInd);
-				//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
-			}
 		}
 		
 		if (value != 0)
@@ -135,11 +127,11 @@ public class BigMatrix
 			 
 			rowTemp.put(rowTemp.size(), e);
 			rowMap.put(getHashCode(row), rowTemp );
-			System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
+			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
 			
 			colTemp.put(colTemp.size(), e);
 			colMap.put(getHashCode(col), colTemp);
-			System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
+			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
 		}
 	}
 	

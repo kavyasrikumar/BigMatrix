@@ -13,24 +13,31 @@ import java.util.*;
 import java.util.HashMap;
 public class BigMatrix 
 {
-	public static void main (String[] args)
+	/* public static void main (String[] args)
 	{
 		//Matrix 1:
 		BigMatrix m1 = new BigMatrix();
 		m1.setValue(0, 0, 1);
 		m1.setValue(1000, 10, 2);
 		m1.setValue(10, 1000, 3);
+		
+		//System.out.println(m1.getValue(0, 1000));
+		
 		m1.setValue(0, 1000, 4);
+		
+		System.out.println(m1.getValue(0, 1000));
+		
 		m1.setValue(1000, 0, 5);
 		m1.setValue(0, 10, 6);
 		m1.setValue(10, 0, 7);
+		
 		m1.setValue(10, 1000, 0);
 		m1.setValue(10, 0, 0);
 		m1.setValue(1000, 10, 0);
 		m1.setValue(0, 10, 0);
 
-		System.out.println(m1.getRowSum(0));
-	}
+		System.out.println(m1.getValue(0, 1000));
+	}*/
 
 	public class Entry 
 	{
@@ -65,33 +72,17 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		// if the value is 0 and is in the matrix
-		if (value == 0 &&  rowMap.get(row) != null && colMap.get(col) != null &&
-				rowMap.get(row).containsKey(col) && colMap.get(col).containsKey(row))
+		if (value == 0)
 		{
-			// remove the entry if there are multiple in the row/column
-			// remove the row/column if it is the only one
-			//
-			if ( rowMap.get(row).size() == 1) 
-			{
-				rowMap.remove(row);
-				System.out.println("removing the row: " + row);
-			} 
-			else 
-			{
-				rowMap.get(row).remove(col);
-				System.out.println("removing the value at: " + row + ", " + col);
-			}
-			
-			if (colMap.get(col).size() == 1)
-			{
-				colMap.remove(col);
-				System.out.println("removing the column: " + col);
+			if(!rowMap.containsKey(row)) {
+				return;
 			}
 			else
 			{
+				rowMap.get(row).remove(col);
 				colMap.get(col).remove(row);
-				System.out.println("removing the value at: " + row + ", " + col);
 			}
+			return;
 		}
 		
 		// if the value is not 0
@@ -101,39 +92,29 @@ public class BigMatrix
 		{
 			Entry e = new Entry(row, col, value);
 			
-			if(rowMap.get(row) != null) 
+			if(!rowMap.containsKey(row))
 			{
-				rowMap.put(getHashCode(row), rowMap.get(row));
-				rowMap.get(row).put(col, e);
-				System.out.println("adding the value " + value + " at: " + row + ", " + col);
-			}
-			else
-			{
-				rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
-				rowMap.get(row).put(col, e);
-				System.out.println("adding the value " + value + " at: " + row + ", " + col);
+				rowMap.put(row, new HashMap<Integer, Entry>());
 			}
 			
-			if(colMap.get(col) != null) 
+			if(!colMap.containsKey(col))
 			{
-				colMap.put(getHashCode(col), colMap.get(col));
-				rowMap.get(col).put(row, e);
-				System.out.println("adding the value " + value + " at: " + row + ", " + col);
+				colMap.put(col, new HashMap<Integer, Entry>());
 			}
-			else
-			{
-				colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
-				colMap.get(col).put(row, e);
-				System.out.println("adding the value " + value + " at: " + row + ", " + col);
-			}
-		}	
+			
+			rowMap.get(row).put(col, e);
+			colMap.get(col).put(row, e);
+			
+		}
 	}
 	
 	public int getValue(int row, int col)
 	{
 		if (rowMap.get(row) != null && colMap.get(col) != null)
 		{		
-			return rowMap.get(row).get(col).value;
+			System.out.println("the hashset is: " + rowMap.get(row).toString());
+			HashMap<Integer, Entry> temp = rowMap.get(row);
+			return temp.get(col).value;
 		}
 		
 		return 0;		

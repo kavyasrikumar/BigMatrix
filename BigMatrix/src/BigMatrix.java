@@ -213,10 +213,7 @@ public class BigMatrix
 		for(int r: rowSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
-			if (colVals.contains(rowSubMap.get(r).row) == false) 
-			{
-				colVals.add(rowSubMap.get(r).row);
-			}
+			colVals.add(rowSubMap.get(r).column);
 		}
 		return colVals;
 	}

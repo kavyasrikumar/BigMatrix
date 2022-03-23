@@ -72,6 +72,7 @@ public class BigMatrix
 			if (rowMap.get(row) != null)
 			{
 				rowTemp = rowMap.get(row);
+				
 			}
 			
 			if (colMap.get(col) != null)
@@ -98,7 +99,7 @@ public class BigMatrix
 		
 			for (Entry e : rowSubMap.values())
 			{
-				if(e.column == col)
+				if(e.column == col && e.row == row)
 				{
 					//System.out.println(e.value);
 					return e.value;

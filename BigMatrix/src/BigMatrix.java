@@ -206,16 +206,17 @@ public class BigMatrix
 	{
 		// Create an empty list of integers to store the column values 
 		List<Integer> colVals = new ArrayList<Integer>();
+		
 		HashMap<Integer, Entry> rowSubMap = rowMap.get(row);
 		
-		// For each key in the column hash table
+		// For each key in the row hash table
 		for(int r: rowSubMap.keySet()) 
 		{
 			// If the key is not already in the list, add it to list
-			//if (colVals.contains(rowSubMap.get(r).row) == false) 
-			//{
+			if (colVals.contains(rowSubMap.get(r).row) == false) 
+			{
 				colVals.add(rowSubMap.get(r).row);
-			//}
+			}
 		}
 		return colVals;
 	}

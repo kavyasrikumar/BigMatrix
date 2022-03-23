@@ -25,6 +25,8 @@ public class BigMatrix
 		myMatrix.getValue(0,  0);
 		myMatrix.getValue(0, 1000);
 		myMatrix.getValue(0,  10);
+		
+		myMatrix.getRowSum(0);
 	}
 	
 	public class Entry 
@@ -193,10 +195,11 @@ public class BigMatrix
 		
 		HashMap<Integer, Entry> temp = rowMap.get(row);
 		
-		for (Entry e : temp.values()) {
-			sum += e.value;
+		for (int i : temp.keySet()) {
+			sum += temp.get(i).value;
 		}
 
+		//System.out.print(sum);
 		return sum;
 	}
 	
@@ -207,8 +210,8 @@ public class BigMatrix
 		
 		HashMap<Integer, Entry> temp = colMap.get(col);
 		
-		for (Entry e : temp.values()) {
-			sum += e.value;
+		for (int i : temp.keySet()) {
+			sum += temp.get(i).value;
 		}
 
 		return sum;

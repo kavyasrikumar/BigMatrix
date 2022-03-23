@@ -67,8 +67,18 @@ public class BigMatrix
 		temp.colMap = colMap;
 		
 		if(value == 0 && temp.getValue(row, col) != 0) {
-			rowMap.remove(row);
-			colMap.remove(col);
+			for(int i : rowMap.get(row).keySet()) 
+			{
+				if(rowMap.get(row).get(i).column == col) {
+					rowMap.get(row).remove(i);
+				}
+			}
+			for(int i : colMap.get(col).keySet()) 
+			{
+				if(colMap.get(col).get(i).row == row) {
+					colMap.get(col).remove(i);
+				}
+			}
 		}
 		else
 		{

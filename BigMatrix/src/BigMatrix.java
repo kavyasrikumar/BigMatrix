@@ -13,7 +13,24 @@ import java.util.*;
 import java.util.HashMap;
 public class BigMatrix 
 {
-	
+	public static void main (String[] args)
+	{
+		//Matrix 1:
+		BigMatrix m1 = new BigMatrix();
+		m1.setValue(0, 0, 1);
+		m1.setValue(1000, 10, 2);
+		m1.setValue(10, 1000, 3);
+		m1.setValue(0, 1000, 4);
+		m1.setValue(1000, 0, 5);
+		m1.setValue(0, 10, 6);
+		m1.setValue(10, 0, 7);
+		m1.setValue(10, 1000, 0);
+		m1.setValue(10, 0, 0);
+		m1.setValue(1000, 10, 0);
+		m1.setValue(0, 10, 0);
+
+		System.out.println(m1.getRowSum(0));
+	}
 
 	public class Entry 
 	{
@@ -47,70 +64,60 @@ public class BigMatrix
 	
 	public void setValue(int row, int col, int value)
 	{
-		
-		if(value == 0 && rowMap.get(row) != null && colMap.get(col) != null) {
-			
-			int rowInd = -1;
-			int colInd = -1;
-			
-			if (rowMap.get(row).size() > 1) {
-				for(int i : rowMap.get(row).keySet()) 
-				{
-					if(rowMap.get(row).get(i).column == col) {
-						rowInd = i;
-					}
-				}
-				rowMap.get(row).remove(rowInd);
-				//System.out.println("removing the specific value in the row");
-			}
-			else
+		// if the value is 0 and is in the matrix
+		if (value == 0 && rowMap.get(row).containsKey(col))
+		{
+			// remove the entry if there are multiple in the row/column
+			// remove the row/column if it is the only one
+			//
+			if (rowMap.get(row).size() == 1) 
 			{
 				rowMap.remove(row);
-				//System.out.println("removing the row");
+			} 
+			else 
+			{
+				rowMap.get(row).remove(col);
 			}
-		
-			if (colMap.get(col).size() > 1) {
-				for(int i : colMap.get(col).keySet()) 
-				{
-					if(colMap.get(col).get(i).row == row) {
-						colInd = i;
-					}
-				}
-				colMap.get(col).remove(colInd);
-				//System.out.println("removing the specific value in the column");
+			
+			if (colMap.get(col).size() == 1)
+			{
+				colMap.remove(col);
 			}
 			else
 			{
-				colMap.remove(col);
-				//System.out.println("removing the column");
+				colMap.get(col).remove(row);
 			}
 		}
 		
-		if (value != 0)
+		// if the value is not 0
+		// add it to the matrix by hashing the row & column
+		//
+		else
 		{
 			Entry e = new Entry(row, col, value);
 			
-			HashMap<Integer, Entry> rowTemp = new HashMap<Integer, Entry>();
-			HashMap<Integer, Entry> colTemp = new HashMap<Integer, Entry>();
-			
-			if (rowMap.get(row) != null)
+			if(rowMap.get(row) != null) 
 			{
-				rowTemp = rowMap.get(row);
+				rowMap.put(getHashCode(row), rowMap.get(row));
+				rowMap.get(row).put(col, e);
+			}
+			else
+			{
+				rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
+				rowMap.get(row).put(col, e);
 			}
 			
-			if (colMap.get(col) != null)
+			if(colMap.get(col) != null) 
 			{
-				colTemp = colMap.get(col);
+				colMap.put(getHashCode(col), colMap.get(col));
+				rowMap.get(col).put(row, e);
 			}
-			 
-			rowTemp.put(rowTemp.size(), e);
-			rowMap.put(getHashCode(row), rowTemp );
-			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
-			
-			colTemp.put(colTemp.size(), e);
-			colMap.put(getHashCode(col), colTemp);
-			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
-		}
+			else
+			{
+				colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
+				rowMap.get(col).put(row, e);
+			}
+		}	
 	}
 	
 	public int getValue(int row, int col)
@@ -223,9 +230,9 @@ public class BigMatrix
 		
 		if (rowMap.get(row) != null)
 		{
-			for (Entry e : rowMap.get(row).values())
+			for (int i : rowMap.get(row).keySet())
 			{
-			sum += e.value;
+				sum += rowMap.get(row).get(i).value;
 			}
 		}
 		

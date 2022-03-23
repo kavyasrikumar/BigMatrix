@@ -65,27 +65,32 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		// if the value is 0 and is in the matrix
-		if (value == 0 && rowMap.get(row).containsKey(col))
+		if (value == 0 &&  rowMap.get(row) != null && colMap.get(col) != null &&
+				rowMap.get(row).containsKey(col) && colMap.get(col).containsKey(row))
 		{
 			// remove the entry if there are multiple in the row/column
 			// remove the row/column if it is the only one
 			//
-			if (rowMap.get(row).size() == 1) 
+			if ( rowMap.get(row).size() == 1) 
 			{
 				rowMap.remove(row);
+				System.out.println("removing the row: " + row);
 			} 
 			else 
 			{
 				rowMap.get(row).remove(col);
+				System.out.println("removing the value at: " + row + ", " + col);
 			}
 			
 			if (colMap.get(col).size() == 1)
 			{
 				colMap.remove(col);
+				System.out.println("removing the column: " + col);
 			}
 			else
 			{
 				colMap.get(col).remove(row);
+				System.out.println("removing the value at: " + row + ", " + col);
 			}
 		}
 		
@@ -100,22 +105,26 @@ public class BigMatrix
 			{
 				rowMap.put(getHashCode(row), rowMap.get(row));
 				rowMap.get(row).put(col, e);
+				System.out.println("adding the value " + value + " at: " + row + ", " + col);
 			}
 			else
 			{
 				rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
 				rowMap.get(row).put(col, e);
+				System.out.println("adding the value " + value + " at: " + row + ", " + col);
 			}
 			
 			if(colMap.get(col) != null) 
 			{
 				colMap.put(getHashCode(col), colMap.get(col));
 				rowMap.get(col).put(row, e);
+				System.out.println("adding the value " + value + " at: " + row + ", " + col);
 			}
 			else
 			{
 				colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
-				rowMap.get(col).put(row, e);
+				colMap.get(col).put(row, e);
+				System.out.println("adding the value " + value + " at: " + row + ", " + col);
 			}
 		}	
 	}

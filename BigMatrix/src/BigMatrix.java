@@ -132,15 +132,13 @@ public class BigMatrix
 	public int getValue(int row, int col)
 	{
 		if (rowMap.get(row) != null)
-		{
-			HashMap<Integer, Entry> rowSubMap = rowMap.get(row);
-		
-			for (Entry e : rowSubMap.values())
+		{		
+			for (int i : rowMap.get(row).keySet())
 			{
-				if(e.column == col && e.row == row)
+				if(i == col)
 				{
 					//System.out.println(e.value);
-					return e.value;
+					return rowMap.get(row).get(i).value;
 				}
 			}
 		}

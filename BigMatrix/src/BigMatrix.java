@@ -15,6 +15,18 @@ import java.util.HashMap;
 
 public class BigMatrix 
 {
+	
+	public static void main (String[] args) {
+		BigMatrix myMatrix = new BigMatrix();
+		myMatrix.setValue(0, 0, 1);
+		myMatrix.setValue(0, 1000, 4);
+		myMatrix.setValue(0, 10, 6);
+		
+		myMatrix.getValue(0,  0);
+		myMatrix.getValue(0, 1000);
+		myMatrix.getValue(0,  10);
+	}
+	
 	public class Entry 
 	{
 		int row;
@@ -52,14 +64,27 @@ public class BigMatrix
 		{
 			Entry e = new Entry(row, col, value);
 			
-			HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
-			temp.put(row, e);
-			rowMap.put(getHashCode(row), temp );
+			HashMap<Integer, Entry> rowTemp = new HashMap<Integer, Entry>();
+			HashMap<Integer, Entry> colTemp = new HashMap<Integer, Entry>();
 			
-			temp.remove(row);
-			temp.put(col, e);
+			if (rowMap.get(row) != null)
+			{
+				rowTemp = rowMap.get(row);
+			}
 			
-			colMap.put(getHashCode(col), temp);
+			if (colMap.get(col) != null)
+			{
+				colTemp = colMap.get(col);
+			}
+			
+			 
+			rowTemp.put(rowTemp.size(), e);
+			rowMap.put(getHashCode(row), rowTemp );
+			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
+			
+			colTemp.put(colTemp.size(), e);
+			colMap.put(getHashCode(col), colTemp);
+			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
 		}
 	}
 	
@@ -67,10 +92,13 @@ public class BigMatrix
 	{
 		if (rowMap.get(row) != null)
 		{
-			for (Entry e : rowMap.get(row).values())
+			HashMap<Integer, Entry> rowSubMap = rowMap.get(row);
+		
+			for (Entry e : rowSubMap.values())
 			{
 				if(e.column == col)
 				{
+					//System.out.println(e.value);
 					return e.value;
 				}
 			}

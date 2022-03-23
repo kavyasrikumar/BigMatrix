@@ -22,11 +22,17 @@ public class BigMatrix
 		myMatrix.setValue(0, 1000, 4);
 		myMatrix.setValue(0, 10, 6);
 		
+		myMatrix.setValue(0, 0, 0);
+		
+		System.out.println("getValue: " + myMatrix.getValue(0, 0));
+		
+		/*
 		myMatrix.getValue(0,  0);
 		myMatrix.getValue(0, 1000);
 		myMatrix.getValue(0,  10);
 		
 		myMatrix.getRowSum(0);
+		 */
 	}
 	
 	public class Entry 
@@ -84,7 +90,19 @@ public class BigMatrix
 			if (rowInd != -1 && colInd != -1)
 			{
 				rowMap.get(row).remove(rowInd);
+				System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
 				colMap.get(col).remove(colInd);
+				System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
+			}
+			
+			if(rowMap.get(row).isEmpty()) 
+			{
+				rowMap.remove(row);
+			}
+			
+			if(colMap.get(col).isEmpty()) 
+			{
+				rowMap.remove(col);
 			}
 		}
 		
@@ -107,11 +125,11 @@ public class BigMatrix
 			 
 			rowTemp.put(rowTemp.size(), e);
 			rowMap.put(getHashCode(row), rowTemp );
-			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
+			System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
 			
 			colTemp.put(colTemp.size(), e);
 			colMap.put(getHashCode(col), colTemp);
-			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
+			System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
 		}
 	}
 	

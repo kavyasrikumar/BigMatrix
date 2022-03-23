@@ -205,19 +205,14 @@ public class BigMatrix
 		// Create an integer sum
 		int sum = 0;
 		
-		/*if (rowMap.get(row) != null)
+		if (rowMap.get(row) != null)
 		{
-			HashMap<Integer, Entry> temp = rowMap.get(row);
-			
-			for (int i : temp.keySet()) {
-				sum += temp.get(i).value;
-			}
-		}*/
-		
-		for (Entry e : rowMap.get(row).values())
-		{
+			for (Entry e : rowMap.get(row).values())
+			{
 			sum += e.value;
+			}
 		}
+		
 		
 		//System.out.print(sum);
 		return sum;
@@ -228,19 +223,14 @@ public class BigMatrix
 		// Create an integer sum
 		int sum = 0;
 		
-		/*if(colMap.get(col) != null)
+		if(colMap.get(col) != null)
 		{
-			HashMap<Integer, Entry> temp = colMap.get(col);
-			
-			for (int i : temp.keySet()) {
-				sum += temp.get(i).value;
-			}
-		}*/
-		
-		for (Entry e : colMap.get(col).values())
-		{
+			for (Entry e : colMap.get(col).values())
+			{
 			sum += e.value;
+			}
 		}
+		
 		return sum;
 	}
 	

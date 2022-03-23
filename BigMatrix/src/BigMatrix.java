@@ -9,10 +9,8 @@
  * 					other arithmetic functions. The big matrix should also be able to be multiplied and added 
  * 					to another matrix, and the result be consolidated in a new matrix.
  */
-
 import java.util.*;
 import java.util.HashMap;
-
 public class BigMatrix 
 {
 	
@@ -64,7 +62,6 @@ public class BigMatrix
 	{
 		rowMap = new HashMap<Integer, HashMap<Integer,Entry>>();
 		colMap = new HashMap<Integer, HashMap<Integer,Entry>>();
-
 	}	
 	
 	public void setValue(int row, int col, int value)
@@ -111,28 +108,24 @@ public class BigMatrix
 		if (value != 0)
 		{
 			Entry e = new Entry(row, col, value);
-
+			
 			HashMap<Integer, Entry> rowTemp = new HashMap<Integer, Entry>();
 			HashMap<Integer, Entry> colTemp = new HashMap<Integer, Entry>();
-
+			
 			if (rowMap.get(row) != null)
 			{
 				rowTemp = rowMap.get(row);
 			}
-
+			
 			if (colMap.get(col) != null)
 			{
 				colTemp = colMap.get(col);
 			}
-
-			rowMap.get(row).put(rowMap.get(row).size(), e);
-			rowMap.put(getHashCode(row), rowMap.get(row) );
+			 
 			rowTemp.put(rowTemp.size(), e);
 			rowMap.put(getHashCode(row), rowTemp );
 			//System.out.println("Set value in rowMap --> row: " + row + " col: " + col + " value: " + value);
-
-			colMap.get(col).put(colMap.get(col).size(), e);
-			colMap.put(getHashCode(col), colMap.get(col));
+			
 			colTemp.put(colTemp.size(), e);
 			colMap.put(getHashCode(col), colTemp);
 			//System.out.println("Set value in colMap --> row: " + row + " col: " + col + " value: " + value);
@@ -213,7 +206,6 @@ public class BigMatrix
 	{
 		// Create an empty list of integers to store the column values 
 		List<Integer> colVals = new ArrayList<Integer>();
-
 		HashMap<Integer, Entry> rowSubMap = rowMap.get(row);
 		
 		// For each key in the column hash table
@@ -225,7 +217,6 @@ public class BigMatrix
 				colVals.add(rowSubMap.get(r).row);
 			//}
 		}
-
 		return colVals;
 	}
 	
@@ -242,7 +233,6 @@ public class BigMatrix
 				sum += temp.get(i).value;
 			}
 		}
-
 		//System.out.print(sum);
 		return sum;
 	}
@@ -260,7 +250,6 @@ public class BigMatrix
 				sum += temp.get(i).value;
 			}
 		}
-
 		return sum;
 	}
 	
@@ -308,9 +297,20 @@ public class BigMatrix
 	{
 		// Create a new big matrix
 		BigMatrix result = new BigMatrix();
-		
+
+		// Use the method get all non empty rows in a column on the current matrix
+		//List<Integer> nonEmptyRows = colMap.getAllNonEmptyRowsInColumn();
+		//For each of the non empty rows 
+			//If the value at the same (row, column) pair in other is non-zero
+				//Sum the values and set the value of the entry in the new matrix accordingly
+
+		//Use the method get all non empty rows in a column on the other matrix
+			//If the value at the same (row, column) pair in the current matrix is zero
+				//Set the value of the entry in the new matrix accordingly
+//Return the new matrix
+		throw new UnsupportedOperationException();
 		List<Entry> coordsChecked = new ArrayList<Entry>();
-		
+
 		for(HashMap<Integer, Entry> temp : rowMap.values())
 		{
 			for (Entry e : temp.values() ) {
@@ -318,23 +318,23 @@ public class BigMatrix
 				coordsChecked.add(e);
 			}
 		}
-		
+
 		for(int i : other.getNonEmptyCols()) 
 		{
 			List<Integer> needToAdd = other.getNonEmptyRowsInColumn(i);
-			
+
 			for (int j : needToAdd)
 			{
 				if (result.getValue(i, j) == 0)
 				{
-					result.setValue(i, j, other.getValue(i, j));
+					result.setValue(i, j, other.getValue(i,  j));
 				}
 			}
-			
+
 		}
-		
-		
-		
+
+
+
 		return result;
 	}
 }

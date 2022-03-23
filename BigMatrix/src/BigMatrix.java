@@ -63,8 +63,8 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		BigMatrix temp = new BigMatrix();
-		temp.rowMap = this.rowMap;
-		temp.colMap = this.colMap;
+		temp.rowMap = rowMap;
+		temp.colMap = colMap;
 		
 		if(value == 0 && temp.getValue(row, col) != 0) {
 			rowMap.remove(row);

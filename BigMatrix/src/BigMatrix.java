@@ -64,20 +64,31 @@ public class BigMatrix
 	{
 		
 		if(value == 0 && rowMap.get(row) != null && colMap.get(col) != null) {
+			
+			int rowInd = -1;
+			int colInd = -1;
+			
 			for(int i : rowMap.get(row).keySet()) 
 			{
 				if(rowMap.get(row).get(i).column == col) {
-					rowMap.get(row).remove(i);
+					rowInd = i;
 				}
 			}
 			for(int i : colMap.get(col).keySet()) 
 			{
 				if(colMap.get(col).get(i).row == row) {
-					colMap.get(col).remove(i);
+					colInd = i;
 				}
 			}
+			
+			if (rowInd != -1 && colInd != -1)
+			{
+				rowMap.get(row).remove(rowInd);
+				colMap.get(col).remove(colInd);
+			}
 		}
-		else
+		
+		if (value != 0)
 		{
 			Entry e = new Entry(row, col, value);
 			

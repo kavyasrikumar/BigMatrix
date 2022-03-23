@@ -13,32 +13,7 @@ import java.util.*;
 import java.util.HashMap;
 public class BigMatrix 
 {
-	/* public static void main (String[] args)
-	{
-		//Matrix 1:
-		BigMatrix m1 = new BigMatrix();
-		m1.setValue(0, 0, 1);
-		m1.setValue(1000, 10, 2);
-		m1.setValue(10, 1000, 3);
-		
-		//System.out.println(m1.getValue(0, 1000));
-		
-		m1.setValue(0, 1000, 4);
-		
-		System.out.println(m1.getValue(0, 1000));
-		
-		m1.setValue(1000, 0, 5);
-		m1.setValue(0, 10, 6);
-		m1.setValue(10, 0, 7);
-		
-		m1.setValue(10, 1000, 0);
-		m1.setValue(10, 0, 0);
-		m1.setValue(1000, 10, 0);
-		m1.setValue(0, 10, 0);
-
-		System.out.println(m1.getValue(0, 1000));
-	}*/
-
+	
 	public class Entry 
 	{
 		int row;
@@ -94,12 +69,12 @@ public class BigMatrix
 			
 			if(!rowMap.containsKey(row))
 			{
-				rowMap.put(row, new HashMap<Integer, Entry>());
+				rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
 			}
 			
 			if(!colMap.containsKey(col))
 			{
-				colMap.put(col, new HashMap<Integer, Entry>());
+				colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
 			}
 			
 			rowMap.get(row).put(col, e);

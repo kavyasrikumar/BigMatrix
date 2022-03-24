@@ -47,15 +47,23 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		// if the value is 0 and is in the matrix
+		if (value == 0 && !rowMap.containsKey(row) )
+		{
+			return;
+		}
+		
 		if (value == 0)
 		{
-			if(!rowMap.containsKey(row)) {
-				return;
+			rowMap.get(row).remove(col);
+			
+			if(rowMap.get(row).isEmpty()) {
+				rowMap.remove(row);
 			}
-			else
-			{
-				rowMap.get(row).remove(col);
-				colMap.get(col).remove(row);
+			
+			colMap.get(col).remove(row);
+			
+			if(colMap.get(col).isEmpty()) {
+				rowMap.remove(col);
 			}
 			return;
 		}

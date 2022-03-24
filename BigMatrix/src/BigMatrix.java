@@ -253,29 +253,14 @@ public class BigMatrix
 		// Create a new big matrix
 		BigMatrix result = new BigMatrix();
 		
-		List<Entry> coordsChecked = new ArrayList<Entry>();
+		result.rowMap = this.rowMap;
+		result.colMap = this.colMap;
 		
-		List<Integer> nonEmptyRows = other.getNonEmptyRows();
-		
-		for (int r : nonEmptyRows)
+		for (int r : other.getNonEmptyRows())
 		{
-			for (int c : other.getNonEmptyColsInRow(r)) 
+			for (int c : other.getNonEmptyColsInRow(r))
 			{
-				result.setValue(r, c, (other.getValue(r, c) + rowMap.get(r).get(c).value) );
-				coordsChecked.add( new Entry(r, c,other.getValue(r, c) + rowMap.get(r).get(c).value));
-			}
-		}
-		
-		List<Integer> nonEmptyCols = other.getNonEmptyCols();
-		
-		for (int c : other.getNonEmptyCols())
-		{
-			for (int r: other.getNonEmptyRowsInColumn(c))
-			{
-				if (!coordsChecked.contains(other.getNonEmptyCols().get(c)))
-				{
-					result.setValue(r, c, other.getValue(r, c));
-				}
+				result.setValue(r,  c,  other.getValue(r, c) + result.getValue(r, c));
 			}
 		}
 	

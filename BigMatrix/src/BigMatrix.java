@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.HashMap;
 public class BigMatrix 
 {
+
 	
 	public class Entry 
 	{
@@ -67,12 +68,24 @@ public class BigMatrix
 			}
 			return;
 		}
-		else
+		else if (rowMap.containsKey(row))
 		{
 			Entry e = new Entry(row, col, value);
 			
 			rowMap.get(row).put(col, e);
 			colMap.get(col).put(row, e);
+		}
+		else
+		{
+			HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
+			Entry e = new Entry(row, col, value);
+			
+			temp.put(col, e);			
+			rowMap.put(row, temp);
+			
+			temp.remove(col);
+			temp.put(row, e);
+			colMap.put(col, temp);
 		}
 			
 	}

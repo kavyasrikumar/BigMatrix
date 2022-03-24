@@ -87,7 +87,7 @@ public class BigMatrix
 				}
 				else
 				{
-					rowMap.get(col).remove(row);
+					colMap.get(col).remove(row);
 				}
 			} 
 			else

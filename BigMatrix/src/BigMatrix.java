@@ -252,33 +252,32 @@ public class BigMatrix
 	{
 		// Create a new big matrix
 		BigMatrix result = new BigMatrix();
-
+		
 		List<Entry> coordsChecked = new ArrayList<Entry>();
-
-		for(HashMap<Integer, Entry> temp : rowMap.values())
+		
+		List<Integer> nonEmptyRows = other.getNonEmptyRows();
+		List<Integer> nonEmptyCols = other.getNonEmptyCols();
+		
+		for (int r : nonEmptyRows)
 		{
-			for (Entry e : temp.values() ) {
-				result.setValue(e.row, e.column, (e.value + other.getValue(e.row, e.column) ));
-				coordsChecked.add(e);
+			for (int c : nonEmptyCols) 
+			{
+				result.setValue(r, c, (other.getValue(r, c) + rowMap.get(r).get(c).value) );
+				coordsChecked.add( new Entry(r, c,other.getValue(r, c) + rowMap.get(r).get(c).value));
 			}
 		}
-
-		for(int i : other.getNonEmptyCols()) 
+		
+		for (int i : rowMap.keySet())
 		{
-			List<Integer> needToAdd = other.getNonEmptyRowsInColumn(i);
-
-			for (int j : needToAdd)
+			if (!coordsChecked.contains(i))
 			{
-				if (result.getValue(i, j) == 0)
+				for(int j : rowMap.get(i).keySet())
 				{
-					result.setValue(i, j, other.getValue(i,  j));
+					result.setValue(rowMap.get(i).get(j).row, rowMap.get(i).get(j).column, rowMap.get(i).get(j).value);
 				}
 			}
-
 		}
-
-
-
+	
 		return result;
 	}
 }

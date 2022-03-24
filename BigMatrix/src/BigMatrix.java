@@ -82,7 +82,7 @@ public class BigMatrix
 	
 	public int getValue(int row, int col)
 	{
-		if (rowMap.get(row).get(col) != null)
+		if (rowMap.containsKey(row) && rowMap.get(row).containsKey(col))
 		{	
 			return rowMap.get(row).get(col).value;
 		}

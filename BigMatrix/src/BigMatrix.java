@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.HashMap;
 public class BigMatrix 
 {
-
 	
 	public class Entry 
 	{
@@ -48,46 +47,60 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		// if the value is 0 and is in the matrix
-		if (value == 0 && !rowMap.containsKey(row) )
+		if (value == 0 && rowMap.get(row).get(col).value == 0 )
 		{
 			return;
 		}
 		
-		if (value == 0)
+		if (rowMap.containsKey(row))
 		{
-			rowMap.get(row).remove(col);
-			
-			if(rowMap.get(row).isEmpty()) {
-				rowMap.remove(row);
+			if (value == 0)
+			{
+				if (rowMap.get(row).size() == 1)
+				{
+					rowMap.remove(row);
+				}
+				else
+				{
+					rowMap.get(row).remove(col);
+				}
 			}
-			
-			colMap.get(col).remove(row);
-			
-			if(colMap.get(col).isEmpty()) {
-				rowMap.remove(col);
+			else
+			{
+				rowMap.get(row).put(col, new Entry(row, col, value));
 			}
-			return;
-		}
-		else if (rowMap.containsKey(row))
-		{
-			Entry e = new Entry(row, col, value);
-			
-			rowMap.get(row).put(col, e);
-			colMap.get(col).put(row, e);
 		}
 		else
 		{
 			HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
-			Entry e = new Entry(row, col, value);
-			
-			temp.put(col, e);			
+			temp.put(col, new Entry(row, col, value));
 			rowMap.put(row, temp);
-			
-			temp.remove(col);
-			temp.put(row, e);
+		}
+		
+		if (colMap.containsKey(col))
+		{
+			if (value == 0)
+			{
+				if (colMap.get(col).size() == 1)
+				{
+					colMap.remove(col);
+				}
+				else
+				{
+					rowMap.get(col).remove(row);
+				}
+			} 
+			else
+			{
+				colMap.get(col).put(row, new Entry(row, col, value));
+			}
+		}
+		else
+		{
+			HashMap<Integer, Entry> temp = new HashMap<Integer, Entry>();
+			temp.put(row, new Entry(row, col, value));
 			colMap.put(col, temp);
 		}
-			
 	}
 	
 	public int getValue(int row, int col)
@@ -186,7 +199,7 @@ public class BigMatrix
 		{
 			for (Entry e : colMap.get(col).values())
 			{
-			sum += e.value;
+				sum += e.value;
 			}
 		}
 		

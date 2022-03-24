@@ -162,12 +162,11 @@ public class BigMatrix
 		
 		if (rowMap.get(row) != null)
 		{
-			for (int i : rowMap.get(row).keySet())
+			for (Entry e : rowMap.get(row).values())
 			{
-				sum += rowMap.get(row).get(i).value;
+				sum += e.value;
 			}
 		}
-		
 		
 		//System.out.print(sum);
 		return sum;

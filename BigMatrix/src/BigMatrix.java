@@ -67,24 +67,13 @@ public class BigMatrix
 			}
 			return;
 		}
-		
-		// if the value is not 0
-		// add it to the matrix by hashing the row & column
-		//
-		Entry e = new Entry(row, col, value);
-		
-		if(!rowMap.containsKey(row))
+		else
 		{
-			rowMap.put(getHashCode(row), new HashMap<Integer, Entry>());
+			Entry e = new Entry(row, col, value);
+			
+			rowMap.get(row).put(col, e);
+			colMap.get(col).put(row, e);
 		}
-		
-		if(!colMap.containsKey(col))
-		{
-			colMap.put(getHashCode(col), new HashMap<Integer, Entry>());
-		}
-		
-		rowMap.get(row).put(col, e);
-		colMap.get(col).put(row, e);
 			
 	}
 	
@@ -149,7 +138,10 @@ public class BigMatrix
 		
 		if(rowMap.get(row) != null)
 		{		
-			colVals = new ArrayList<Integer>(rowMap.get(row).keySet());
+			for (int i : rowMap.get(row).keySet())
+			{
+				colVals.add(i);
+			}
 		}
 		return colVals;
 

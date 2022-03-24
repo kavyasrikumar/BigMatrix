@@ -256,24 +256,25 @@ public class BigMatrix
 		List<Entry> coordsChecked = new ArrayList<Entry>();
 		
 		List<Integer> nonEmptyRows = other.getNonEmptyRows();
-		List<Integer> nonEmptyCols = other.getNonEmptyCols();
 		
 		for (int r : nonEmptyRows)
 		{
-			for (int c : nonEmptyCols) 
+			for (int c : other.getNonEmptyColsInRow(r)) 
 			{
 				result.setValue(r, c, (other.getValue(r, c) + rowMap.get(r).get(c).value) );
 				coordsChecked.add( new Entry(r, c,other.getValue(r, c) + rowMap.get(r).get(c).value));
 			}
 		}
 		
-		for (int i : rowMap.keySet())
+		List<Integer> nonEmptyCols = other.getNonEmptyCols();
+		
+		for (int c : other.getNonEmptyCols())
 		{
-			if (!coordsChecked.contains(i))
+			for (int r: other.getNonEmptyRowsInColumn(c))
 			{
-				for(int j : rowMap.get(i).keySet())
+				if (!coordsChecked.contains(other.getNonEmptyCols().get(c)))
 				{
-					result.setValue(rowMap.get(i).get(j).row, rowMap.get(i).get(j).column, rowMap.get(i).get(j).value);
+					result.setValue(r, c, other.getValue(r, c));
 				}
 			}
 		}

@@ -47,7 +47,8 @@ public class BigMatrix
 	public void setValue(int row, int col, int value)
 	{
 		// if the value is 0 and is in the matrix
-		if (value == 0 && rowMap.get(row).get(col).value == 0 )
+		if (value == 0 && rowMap.containsKey(row) && rowMap.get(row).containsKey(col) 
+				&& rowMap.get(row).get(col).value == 0)
 		{
 			return;
 		}
